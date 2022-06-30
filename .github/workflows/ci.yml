@@ -1,9 +1,8 @@
-name: CI
+name: Node.js CI
 
 on: push
 
 jobs:
-
   testes:
 
     runs-on: ubuntu-latest
@@ -11,18 +10,13 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
-      -name: Instalando as Depêndencias
-        run: npm install
-
-      -name: Rodando os testes unitários
-        run: npm run test
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm test
